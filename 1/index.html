@@ -8,18 +8,42 @@
     <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
   </head>
   <body>
-    <div class="container">
-      <div class="row">
-        Email:<input type="email" placeholder="user.name@asm.hcf" />
+    <ol>
+      <div class="container">
+        <div class="row">
+          <li>Email:<input type="email" placeholder="user.name@asm.hcf" /></li>
+        </div>
+        <div class="row">
+          <li>
+            Kod pocztowy:<input
+              type="text"
+              pattern="\d{2}-\d{3}"
+              placeholder="00-000"
+            />
+          </li>
+        </div>
+        <div class="row">
+          <li>
+            Kod pocztowy:<input
+              type="text"
+              pattern="\d{2}-\d{3}"
+              placeholder="00-000"
+            />
+          </li>
+        </div>
+        <div class="row">
+          <li>
+            Numer Dowodu:<input
+              type="text"
+              placeholder="ABC 123456"
+              pattern="[A-Z]{3}\s\d{6}"
+            />
+          </li>
+        </div>
+        <div class="row">
+          <li>Adres IPv4:<input type="text" placeholder="33.88.42.906" /></li>
+        </div>
       </div>
-      <div class="row">
-        Kod pocztowy:<input
-          type="text"
-          pattern="\d{2}-\d{3}"
-          placeholder="00-000"
-        />
-      </div>
-      <div class="row"></div>
-    </div>
+    </ol>
   </body>
 </html>
