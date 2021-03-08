@@ -27,7 +27,7 @@
             numer NIP<input
               type="text"
               pattern="(?:\d{3}-\d{3}-\d{2}-\d{2})|(?:\d{3}-\d{2}-\d{2}-\d{3})"
-              placeholder="123-456-78-19 LUB 123-45-67-819"
+              placeholder="123-456-78-19"
             />
           </li>
         </div>
@@ -53,7 +53,35 @@
           <li>Strona www:<input type="url" placeholder="google.pl" /></li>
         </div>
         <div class="row">
-          <li>Ścieżka z małymi literami: <input type="text" placeholder="d:\21_code"></li>
+          <li>
+            Ścieżka z małymi literami:
+            <input
+              type="text"
+              placeholder="d:\21code"
+              pattern="[a-z]:(?:\\[a-z\d]+)+\\?"
+            />
+          </li>
+        </div>
+        <div class="row">
+          <li>
+            Ścieżka z małymi i dużymi literami:<input
+              type="text"
+              placeholder="D:\21Code"
+              pattern="[a-zA-Z]:(?:\\[a-zA-Z\d]+)+\\?"
+            />
+          </li>
+        </div>
+        <div class="row">
+          <li>
+            Ścieżka do pliku w /etc/<input
+              type="text"
+              placeholder="/etc/php/fpm/www.conf"
+              pattern="^\/etc\/[a-zA-Z\d]+(?:\.[a-zA-Z\d])?"
+            />
+          </li>
+        </div>
+        <div class="row">
+          <li>Adres IPv6<input type="text" placeholder=""></li>
         </div>
       </div>
     </ol>
