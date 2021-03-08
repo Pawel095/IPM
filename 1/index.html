@@ -81,7 +81,26 @@
           </li>
         </div>
         <div class="row">
-          <li>Adres IPv6<input type="text" placeholder=""></li>
+          <li>
+            Adres IPv6<input
+              type="text"
+              placeholder="fe80:0000:750b:4137:8a83:9a41"
+            />
+          </li>
+        </div>
+        <div class="row">
+          <li>
+            <!--
+            123-456-789
+            58-123-45-67
+            +48-58-123-45-67
+            -->
+            Numer Telefonu<input
+              type="tel"
+              placeholder="123-456-789"
+              pattern="^(?:\+\d{2}-)?(?:\d{2}-)?\d{3}-\d{2,3}-\d{2,3}"
+            />
+          </li>
         </div>
       </div>
     </ol>
