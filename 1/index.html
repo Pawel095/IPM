@@ -41,7 +41,19 @@
           </li>
         </div>
         <div class="row">
-          <li>Adres IPv4:<input type="text" placeholder="33.88.42.906" /></li>
+          <li>
+            Adres IPv4:<input
+              type="text"
+              placeholder="33.88.42.906"
+              pattern="^(?:\d{1,3}\.){3}\d{1,3}$"
+            />
+          </li>
+        </div>
+        <div class="row">
+          <li>Strona www:<input type="url" placeholder="google.pl" /></li>
+        </div>
+        <div class="row">
+          <li>Ścieżka z małymi literami: <input type="text" placeholder="d:\21_code"></li>
         </div>
       </div>
     </ol>
