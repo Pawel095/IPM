@@ -158,10 +158,17 @@
           </li>
         </div>
         <div class="row">
-          <li>Czas w formacie 12H<input type="time" required /></li>
+          <li>
+            Czas w formacie 12H:
+            <input type="time" min="00:00" max="12:00" required />
+            <select>
+              <option value="AM">AM</option>
+              <option value="PM">PM</option>
+            </select>
+          </li>
         </div>
         <div class="row">
-          <li>Czas w formacie 24H<input type="time" required /></li>
+          <li>Czas w formacie 24H: <input type="time" required /></li>
         </div>
       </div>
     </ol>
