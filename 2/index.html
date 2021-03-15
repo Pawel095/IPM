@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Zadanie 1</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+  </head>
+  <body>
+    <ol>
+      <div class="container">
+        <div class="row">
+          <li>Email:<input type="email" placeholder="user.name@asm.hcf" /></li>
+        </div>
+        <div class="row">
+          <li>
+            Kod pocztowy:<input
+              type="text"
+              pattern="\d{2}-\d{3}"
+              placeholder="00-000"
+            />
+          </li>
+        </div>
+        <div class="row">
+          <li>
+            numer NIP<input
+              type="text"
+              pattern="(?:\d{3}-\d{3}-\d{2}-\d{2})|(?:\d{3}-\d{2}-\d{2}-\d{3})"
+              placeholder="123-456-78-19"
+            />
+          </li>
+        </div>
+        <div class="row">
+          <li>
+            Numer Dowodu:<input
+              type="text"
+              placeholder="ABC 123456"
+              pattern="[A-Z]{3}\s\d{6}"
+            />
+          </li>
+        </div>
+        <div class="row">
+          <li>
+            Adres IPv4:<input
+              type="text"
+              placeholder="33.88.42.906"
+              pattern="^(?:\d{1,3}\.){3}\d{1,3}$"
+            />
+          </li>
+        </div>
+        <div class="row">
+          <!--
+          Test Data:
+          http://mmajchr.iis.p.lodz.pl/ipmob/zadania/zadanie1.html
+          https://www.weeia.p.lodz.pl/dla-studentow/plany-zajec/studia-stacjonarne-plany-zajec/
+          www.weeia.p.lodz.pl/wgrane_pliki/21mar12plany1.21.pdf
+          google.pl
+          to nie url
+          c:\windows\asd
+          -->
+          <li>
+            Strona www:<input
+              type="text"
+              placeholder="google.pl"
+              pattern="(?:http[s]?:\/\/)?(?:[a-zA-Z0-9-]+\.)+(?:[a-zA-Z0-9-]+)(?:\/[a-zA-Z\d\/\._-]+)?"
+            />
+          </li>
+        </div>
+        <div class="row">
+          <li>
+            Ścieżka z małymi literami:
+            <input
+              type="text"
+              placeholder="d:\21code"
+              pattern="[a-z]:(?:\\[a-z\d]+)+\\?"
+            />
+          </li>
+        </div>
+        <div class="row">
+          <li>
+            Ścieżka z małymi i dużymi literami:<input
+              type="text"
+              placeholder="D:\21Code"
+              pattern="[a-zA-Z]:(?:\\[a-zA-Z\d]+)+\\?"
+            />
+          </li>
+        </div>
+        <div class="row">
+          <li>
+            Ścieżka do pliku w /etc/<input
+              type="text"
+              placeholder="/etc/php/fpm/www.conf"
+              pattern="^\/etc\/[a-zA-Z\d]+(?:\.[a-zA-Z\d])?"
+            />
+          </li>
+        </div>
+        <div class="row">
+          <li>
+            <!-- Pattern znaleziony w https://rgxdb.com/r/2TAAKA63 -->
+            Adres IPv6<input
+              type="text"
+              placeholder="fe80:0000:750b:4137:8a83:9a41"
+              pattern="/^(?:(?:(?:[0-9A-Fa-f]{0,4}:){7}[0-9A-Fa-f]{0,4})|(?:(?:[0-9A-Fa-f]{0,4}:){6}:[0-9A-Fa-f]{0,4})|(?:(?:[0-9A-Fa-f]{0,4}:){5}:(?:[0-9A-Fa-f]{0,4}:)?[0-9A-Fa-f]{0,4})|(?:(?:[0-9A-Fa-f]{0,4}:){4}:(?:[0-9A-Fa-f]{0,4}:){0,2}[0-9A-Fa-f]{0,4})|(?:(?:[0-9A-Fa-f]{0,4}:){3}:(?:[0-9A-Fa-f]{0,4}:){0,3}[0-9A-Fa-f]{0,4})|(?:(?:[0-9A-Fa-f]{0,4}:){2}:(?:[0-9A-Fa-f]{0,4}:){0,4}[0-9A-Fa-f]{0,4})|(?:(?:[0-9A-Fa-f]{0,4}:){6}(?:(?:(?:25[0-5])|(?:2[0-4]\d)|(?:1\d{2})|(?:\d{1,2}))\.){3}(?:(?:25[0-5])|(?:2[0-4]\d)|(?:1\d{2})|(?:\d{1,2})))|(?:(?:[0-9A-Fa-f]{0,4}:){0,5}:(?:(?:(?:25[0-5])|(?:2[0-4]\d)|(?:1\d{2})|(?:\d{1,2}))\.){3}(?:(?:25[0-5])|(?:2[0-4]\d)|(?:1\d{2})|(?:\d{1,2})))|(?:::(?:[0-9A-Fa-f]{0,4}:){0,5}(?:(?:(?:25[0-5])|(?:2[0-4]\d)|(?:1\d{2})|(?:\d{1,2}))\.){3}(?:(?:25[0-5])|(?:2[0-4]\d)|(?:1\d{2})|(?:\d{1,2})))|(?:[0-9A-Fa-f]{0,4}::(?:[0-9A-Fa-f]{0,4}:){0,5}[0-9A-Fa-f]{0,4})|(?:::(?:[0-9A-Fa-f]{0,4}:){0,6}[0-9A-Fa-f]{0,4})|(?:(?:[0-9A-Fa-f]{0,4}:){1,7}:))$/"
+            />
+          </li>
+        </div>
+        <div class="row">
+          <li>
+            <!--
+            123-456-789
+            58-123-45-67
+            +48-58-123-45-67
+            -->
+            Numer Telefonu<input
+              type="tel"
+              placeholder="123-456-789"
+              pattern="^(?:\+\d{2}-)?(?:\d{2}-)?\d{3}-\d{2,3}-\d{2,3}"
+            />
+          </li>
+        </div>
+      </div>
+    </ol>
+  </body>
+</html>
