@@ -5,4 +5,12 @@
 .element{
   display: flex;
   flex-direction: row;
+  margin: 10px;
+}
+input:invalid{
+  box-shadow: 0 0 4px red;
+}
+
+input:valid{
+  box-shadow: 0 0 4px green;
 }
