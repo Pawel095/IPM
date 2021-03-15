@@ -31,7 +31,8 @@
         </div>
         <div class="row">
           <li>
-            numer NIP<input
+            numer NIP:
+            <input
               type="text"
               pattern="(?:\d{3}-\d{3}-\d{2}-\d{2})|(?:\d{3}-\d{2}-\d{2}-\d{3})"
               placeholder="123-456-78-19"
@@ -41,7 +42,8 @@
         </div>
         <div class="row">
           <li>
-            Numer Dowodu:<input
+            Numer Dowodu:
+            <input
               type="text"
               placeholder="ABC 123456"
               pattern="[A-Z]{3}\s\d{6}"
@@ -51,7 +53,8 @@
         </div>
         <div class="row">
           <li>
-            Adres IPv4:<input
+            Adres IPv4:
+            <input
               type="text"
               placeholder="33.88.42.906"
               pattern="^(?:\d{1,3}\.){3}\d{1,3}$"
@@ -70,7 +73,8 @@
           c:\windows\asd
           -->
           <li>
-            Strona www:<input
+            Strona www:
+            <input
               type="text"
               placeholder="https://google.pl"
               pattern="(?:http[s]?:\/\/)?(?:[a-zA-Z0-9-]+\.)+(?:[a-zA-Z0-9-]+)(?:\/[a-zA-Z\d\/\._-]+)?"
@@ -93,7 +97,8 @@
         <div class="row">
           <li>
             Ścieżka z małymi i dużymi literami w katalogu windows, winnt, win,
-            dos, msdos:<input
+            dos, msdos:
+            <input
               type="text"
               placeholder="D:\21Code"
               pattern="[a-z]:\\(?:[Ww][Ii][Nn][Dd][Oo][Ww][Ss]|[Ww][Ii][Nn][Nn][Tt]|[Ww][Ii][Nn]|[Dd][Oo][Ss]|[Mm][Ss][Dd][Oo][Ss])(?:\\[a-zA-Z\d]+)?\\?"
@@ -103,7 +108,8 @@
         </div>
         <div class="row">
           <li>
-            Ścieżka do pliku w /etc/<input
+            Ścieżka do pliku w /etc/:
+            <input
               type="text"
               placeholder="/etc/php/fpm/www.conf"
               pattern="^\/etc\/[a-zA-Z\d]+(?:\.[a-zA-Z\d])?"
@@ -114,7 +120,8 @@
         <div class="row">
           <li>
             <!-- Pattern znaleziony w https://rgxdb.com/r/2TAAKA63 -->
-            Adres IPv6<input
+            Adres IPv6:
+            <input
               type="text"
               placeholder="fe80:0000:750b:4137:8a83:9a41"
               pattern="/^(?:(?:(?:[0-9A-Fa-f]{0,4}:){7}[0-9A-Fa-f]{0,4})|(?:(?:[0-9A-Fa-f]{0,4}:){6}:[0-9A-Fa-f]{0,4})|(?:(?:[0-9A-Fa-f]{0,4}:){5}:(?:[0-9A-Fa-f]{0,4}:)?[0-9A-Fa-f]{0,4})|(?:(?:[0-9A-Fa-f]{0,4}:){4}:(?:[0-9A-Fa-f]{0,4}:){0,2}[0-9A-Fa-f]{0,4})|(?:(?:[0-9A-Fa-f]{0,4}:){3}:(?:[0-9A-Fa-f]{0,4}:){0,3}[0-9A-Fa-f]{0,4})|(?:(?:[0-9A-Fa-f]{0,4}:){2}:(?:[0-9A-Fa-f]{0,4}:){0,4}[0-9A-Fa-f]{0,4})|(?:(?:[0-9A-Fa-f]{0,4}:){6}(?:(?:(?:25[0-5])|(?:2[0-4]\d)|(?:1\d{2})|(?:\d{1,2}))\.){3}(?:(?:25[0-5])|(?:2[0-4]\d)|(?:1\d{2})|(?:\d{1,2})))|(?:(?:[0-9A-Fa-f]{0,4}:){0,5}:(?:(?:(?:25[0-5])|(?:2[0-4]\d)|(?:1\d{2})|(?:\d{1,2}))\.){3}(?:(?:25[0-5])|(?:2[0-4]\d)|(?:1\d{2})|(?:\d{1,2})))|(?:::(?:[0-9A-Fa-f]{0,4}:){0,5}(?:(?:(?:25[0-5])|(?:2[0-4]\d)|(?:1\d{2})|(?:\d{1,2}))\.){3}(?:(?:25[0-5])|(?:2[0-4]\d)|(?:1\d{2})|(?:\d{1,2})))|(?:[0-9A-Fa-f]{0,4}::(?:[0-9A-Fa-f]{0,4}:){0,5}[0-9A-Fa-f]{0,4})|(?:::(?:[0-9A-Fa-f]{0,4}:){0,6}[0-9A-Fa-f]{0,4})|(?:(?:[0-9A-Fa-f]{0,4}:){1,7}:))$/"
@@ -129,12 +136,19 @@
             58-123-45-67
             +48-58-123-45-67
             -->
-            Numer Telefonu<input
+            Numer Telefonu:
+            <input
               type="tel"
               placeholder="123-456-789"
               pattern="^(?:\+\d{2}-)?(?:\d{2}-)?\d{3}-\d{2,3}-\d{2,3}"
               required
             />
+          </li>
+        </div>
+        <div class="row">
+          <li>
+            Data z kalendarza:
+            <input type="date" required />
           </li>
         </div>
       </div>
