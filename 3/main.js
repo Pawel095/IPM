@@ -3,6 +3,10 @@ var blocks = new Array();
 var btn;
 var cnv;
 var ctx;
+var blockIndexToDrag;
+
+var dragX;
+var dragY;
 
 window.onload = () => {
     btn = document.getElementById('spawn-element');
@@ -41,6 +45,26 @@ window.onload = () => {
             ctx.fillStyle = this.color;
             ctx.fillRect(this.x, this.y, this.size, this.size);
         }
+
+        collides(square) {
+            // https://developer.mozilla.org/en-US/docs/Games/Techniques/2D_collision_detection
+            if (
+                this.x < square.x + square.size &&
+                this.x + this.size > square.x &&
+                this.y < square.y + square.height &&
+                this.y + this.size > square.y
+            ) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
+    function draw() {
+        blocks.forEach((block) => {
+            block.draw();
+        });
     }
 
     // util functions
@@ -51,11 +75,40 @@ window.onload = () => {
     // event listeners
     btn.addEventListener('click', (event) => {
         spawnBlock(100, 100);
-        blocks.forEach((block, index) => {
-            block.draw();
-        });
+        draw();
     });
 
-    // Drag and drop handler
-    
+    // Drag and drop handlers
+    cnv.addEventListener('mousedown', down);
+    function down(event) {
+        var brect = cnv.getBoundingClientRect();
+        x = event.clientX - brect.left;
+        y = event.clientY - brect.top;
+        var index = blocks.map((item, index) => item.isInside(x, y)).findIndex((item) => item);
+        // some block is found
+        if (index >= 0) {
+            blockIndexToDrag = index;
+            dragX = x;
+            dragY = y;
+        } else {
+            blockIndexToDrag = -1;
+        }
+        console.log(blockIndexToDrag);
+    }
+
+    cnv.addEventListener('mousemove', move);
+    function move(event) {
+        if (blockIndexToDrag >= 0) {
+            var sq = blocks[blockIndexToDrag];
+
+            var minX = 0
+            var maxX = canvas.width - sq.size;
+            var minY = 0
+            var maxY = canvas.height - sq.size;
+
+            var brect = cnv.getBoundingClientRect();
+            x = event.clientX - brect.left;
+            y = event.clientY - brect.top;
+        }
+    }
 };
