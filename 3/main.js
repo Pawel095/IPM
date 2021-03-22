@@ -62,6 +62,7 @@ window.onload = () => {
     }
 
     function draw() {
+        ctx.clearRect(0, 0, cnv.width, cnv.height);
         blocks.forEach((block) => {
             block.draw();
         });
@@ -84,12 +85,16 @@ window.onload = () => {
         var brect = cnv.getBoundingClientRect();
         x = event.clientX - brect.left;
         y = event.clientY - brect.top;
+
         var index = blocks.map((item, index) => item.isInside(x, y)).findIndex((item) => item);
+
         // some block is found
         if (index >= 0) {
             blockIndexToDrag = index;
-            dragX = x;
-            dragY = y;
+
+            var sq = blocks[blockIndexToDrag];
+            dragX = x - sq.x;
+            dragY = y - sq.y;
         } else {
             blockIndexToDrag = -1;
         }
@@ -101,14 +106,38 @@ window.onload = () => {
         if (blockIndexToDrag >= 0) {
             var sq = blocks[blockIndexToDrag];
 
-            var minX = 0
+            var minX = 0;
             var maxX = canvas.width - sq.size;
-            var minY = 0
+            var minY = 0;
             var maxY = canvas.height - sq.size;
 
             var brect = cnv.getBoundingClientRect();
             x = event.clientX - brect.left;
             y = event.clientY - brect.top;
+
+            posX = x - dragX;
+            posX = posX < minX ? minX : posX > maxX ? maxX : posX;
+            posY = y - dragY;
+            posY = posY < minY ? minY : posY > maxY ? maxY : posY;
+
+            sq.x = posX;
+            sq.y = posY;
+            draw();
+
+            // var colliders = blocks.filter((block, index) => {
+            //     if (index != blockIndexToDrag) {
+            //         sq.collides(block);
+            //     } else {
+            //         return false;
+            //     }
+            // });
+
+            // console.log(colliders);
         }
+    }
+
+    cnv.addEventListener('mouseup', up);
+    function up(event) {
+        blockIndexToDrag = -1;
     }
 };
