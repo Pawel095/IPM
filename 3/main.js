@@ -123,16 +123,6 @@ window.onload = () => {
             sq.x = posX;
             sq.y = posY;
             draw();
-
-            // var colliders = blocks.filter((block, index) => {
-            //     if (index != blockIndexToDrag) {
-            //         sq.collides(block);
-            //     } else {
-            //         return false;
-            //     }
-            // });
-
-            // console.log(colliders);
         }
     }
 
