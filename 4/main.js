@@ -42,6 +42,8 @@ document.addEventListener('drop', (event) => {
     let target = event.target;
     let stopIndex;
     if (target.className === 'droppable' && target.id !== id) {
+        dragged.draggable = true;
+        dragged.classList.add("droppable")
         dragged.remove(dragged);
         for (let i = 0; i < list.length; i++) {
             if (list[i] === target) {
@@ -53,6 +55,7 @@ document.addEventListener('drop', (event) => {
         } else {
             target.after(dragged);
         }
+        
     }
     return false;
 });
