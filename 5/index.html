@@ -14,7 +14,7 @@
                 <form id="addForm" class="vertical">
                     <div class="v-column">
                         <label for="name">Nazwa: </label>
-                        <input type="text" id="name" required />
+                        <input type="text" id="name" required data-dbname="name" value="Test1" />
                     </div>
                     <div class="v-column">
                         <label for="numer NIP">NIP: </label>
@@ -22,7 +22,9 @@
                             type="text"
                             pattern="(?:\d{3}-\d{3}-\d{2}-\d{2})|(?:\d{3}-\d{2}-\d{2}-\d{3})"
                             placeholder="123-456-78-19"
-                            id="numer NIP"
+                            id="nipno"
+                            value="123-456-78-19"
+                            data-dbname="nip"
                             required
                         />
                     </div>
@@ -34,6 +36,8 @@
                             pattern="(?:http[s]?:\/\/)?(?:[a-zA-Z0-9-]+\.)+(?:[a-zA-Z0-9-]+)(?:\/[a-zA-Z\d\/\._-]+)?"
                             required
                             id="clientwebsite"
+                            value="https://google.pl"
+                            data-dbname="clienturl"
                         />
                     </div>
                     <input type="submit" value="Dodaj" />

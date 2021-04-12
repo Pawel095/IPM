@@ -1,4 +1,6 @@
 const CURRENT_VERSION = 1;
+const DATABASE_NAME = 'clientDatabase';
+const OBJECTSTORE_NAME = 'clients';
 
 // +++++++SOURCE: https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API/Using_IndexedDB ++++++
 // In the following line, you should include the prefixes of implementations you want to test.
@@ -16,25 +18,54 @@ if (!window.indexedDB) {
 }
 // ENDSOURCE
 
+function formToDataObject(form) {
+    var ret = {};
+    for (const input of form) {
+        if (input.dataset.dbname) {
+            ret[input.dataset.dbname] = input.value;
+        }
+    }
+    return ret;
+}
+function dataObjectToDisplay(dataObject) {
+    // TODO:IMPLEMENT
+}
+
+var database;
+
+function saveObjectToDatabase(object) {
+    if (database) {
+        var tx = database.transaction(OBJECTSTORE_NAME, 'readwrite');
+        var store = tx.objectStore(OBJECTSTORE_NAME).put(object);
+    }
+}
+
 window.onload = () => {
     const form = document.getElementById('addForm');
     const table = document.getElementById('display');
+    form.onsubmit = (event) => {
+        saveObjectToDatabase(formToDataObject(event.target));
+        event.preventDefault();
+        return false;
+    };
 
-    var open_request = indexedDB.open('clientDatabase', CURRENT_VERSION);
+    // DATABASE SETUP
+    var open_request = indexedDB.open(DATABASE_NAME, CURRENT_VERSION);
     open_request.onerror = (event) => console.log('Error creating database', event);
     open_request.onsuccess = (event) => {
-        event.target.result.onerror = (e) => {
+        database = event.target.result;
+        database.onerror = (e) => {
             console.log('Database error: ', e);
         };
     };
     open_request.onupgradeneeded = () => {
-        var db = open_request.result
+        var db = open_request.result;
         if (CURRENT_VERSION === 1) {
             // create database from schatch
-            var store = db.createObjectStore('clients', { autoIncrement: true });
+            var store = db.createObjectStore(OBJECTSTORE_NAME, { autoIncrement: true });
             var NIPIndex = store.createIndex('by_nip', 'nip', { unique: true });
             var by_name = store.createIndex('by_name', 'name');
-            console.log("created new database")
+            console.log('created new database');
         } else {
             throw ' NOT IMPLEMENTED YET!';
         }
