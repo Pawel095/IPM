@@ -14,7 +14,7 @@
                 <form id="addForm" class="vertical">
                     <div class="v-column">
                         <label for="name">Nazwa: </label>
-                        <input type="text" id="name" />
+                        <input type="text" id="name" required />
                     </div>
                     <div class="v-column">
                         <label for="numer NIP">NIP: </label>
@@ -23,6 +23,7 @@
                             pattern="(?:\d{3}-\d{3}-\d{2}-\d{2})|(?:\d{3}-\d{2}-\d{2}-\d{3})"
                             placeholder="123-456-78-19"
                             id="numer NIP"
+                            required
                         />
                     </div>
                     <div class="v-column">
@@ -35,6 +36,7 @@
                             id="clientwebsite"
                         />
                     </div>
+                    <input type="submit" value="Dodaj" />
                 </form>
             </div>
             <div class="h-column">
@@ -43,6 +45,7 @@
                         <th>Nazwa</th>
                         <th>NIP</th>
                         <th>Strona domowa</th>
+                        <th>Akcja</th>
                     </tr>
                 </table>
             </div>
