@@ -31,20 +31,47 @@ function dataObjectToDisplay(dataObject) {
     // TODO:IMPLEMENT
 }
 
+var table;
 var database;
+function refreshDataDisplay() {
+    if (database) {
+        var store = database.transaction(OBJECTSTORE_NAME, 'readonly').objectStore(OBJECTSTORE_NAME);
+        var newBody = document.createElement('tbody');
+
+        var request = (store.openCursor().onsuccess = (e) => {
+            var c = e.target.result;
+            if (c) {
+                var tr = document.createElement('tr');
+                for (const key in c.value) {
+                    var data = document.createElement('td');
+                    data.innerHTML = c.value[key];
+                    tr.appendChild(data);
+                }
+                newBody.appendChild(tr);
+                c.continue();
+            } else {
+                table.replaceChild(newBody, table.getElementsByTagName('tbody')[0]);
+            }
+        });
+    }
+}
 
 function saveObjectToDatabase(object) {
     if (database) {
         var tx = database.transaction(OBJECTSTORE_NAME, 'readwrite');
         var store = tx.objectStore(OBJECTSTORE_NAME).put(object);
+        // TODO: jakieś alerty o poprawności czy błędzie?
     }
 }
 
+refreshDataDisplay();
 window.onload = () => {
     const form = document.getElementById('addForm');
-    const table = document.getElementById('display');
+    errors = document.getElementById('errors');
+    table = document.getElementById('display');
     form.onsubmit = (event) => {
         saveObjectToDatabase(formToDataObject(event.target));
+        refreshDataDisplay();
         event.preventDefault();
         return false;
     };
@@ -57,6 +84,7 @@ window.onload = () => {
         database.onerror = (e) => {
             console.log('Database error: ', e);
         };
+        refreshDataDisplay();
     };
     open_request.onupgradeneeded = () => {
         var db = open_request.result;
