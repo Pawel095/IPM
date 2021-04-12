@@ -38,7 +38,7 @@ function refreshDataDisplay() {
         var store = database.transaction(OBJECTSTORE_NAME, 'readonly').objectStore(OBJECTSTORE_NAME);
         var newBody = document.createElement('tbody');
 
-        var request = (store.openCursor().onsuccess = (e) => {
+        store.openCursor().onsuccess = (e) => {
             var c = e.target.result;
             if (c) {
                 var tr = document.createElement('tr');
@@ -52,7 +52,7 @@ function refreshDataDisplay() {
             } else {
                 table.replaceChild(newBody, table.getElementsByTagName('tbody')[0]);
             }
-        });
+        };
     }
 }
 
@@ -91,7 +91,7 @@ window.onload = () => {
         if (CURRENT_VERSION === 1) {
             // create database from schatch
             var store = db.createObjectStore(OBJECTSTORE_NAME, { autoIncrement: true });
-            var NIPIndex = store.createIndex('by_nip', 'nip', { unique: true });
+            var NIPIndex = store.createIndex('by_nip', 'nip'); //{ unique: true }
             var by_name = store.createIndex('by_name', 'name');
             console.log('created new database');
         } else {
