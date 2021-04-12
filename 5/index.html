@@ -1,14 +1,51 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Zadanie 5</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
-    <script src='main.js'></script>
-</head>
-<body>
-    
-</body>
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title>Zadanie 5</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+        <script src="main.js"></script>
+    </head>
+    <body>
+        <div class="horizontal">
+            <div class="h-column">
+                <form id="addForm" class="vertical">
+                    <div class="v-column">
+                        <label for="name">Nazwa: </label>
+                        <input type="text" id="name" />
+                    </div>
+                    <div class="v-column">
+                        <label for="numer NIP">NIP: </label>
+                        <input
+                            type="text"
+                            pattern="(?:\d{3}-\d{3}-\d{2}-\d{2})|(?:\d{3}-\d{2}-\d{2}-\d{3})"
+                            placeholder="123-456-78-19"
+                            id="numer NIP"
+                        />
+                    </div>
+                    <div class="v-column">
+                        <label for="clientwebsite">Strona domowa: </label>
+                        <input
+                            type="url"
+                            placeholder="https://google.pl"
+                            pattern="(?:http[s]?:\/\/)?(?:[a-zA-Z0-9-]+\.)+(?:[a-zA-Z0-9-]+)(?:\/[a-zA-Z\d\/\._-]+)?"
+                            required
+                            id="clientwebsite"
+                        />
+                    </div>
+                </form>
+            </div>
+            <div class="h-column">
+                <table id="display">
+                    <tr>
+                        <th>Nazwa</th>
+                        <th>NIP</th>
+                        <th>Strona domowa</th>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </body>
 </html>

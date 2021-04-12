@@ -1,0 +1,23 @@
+.horizontal {
+    display: flex;
+    flex-direction: row;
+}
+.h-column {
+    flex: 50%;
+}
+
+.vertical {
+    display: flex;
+    flex-direction: column;
+}
+.v-column {
+}
+
+table,
+th,
+td {
+    border: 1px solid black;
+}
+table {
+    border-collapse: collapse;
+}
