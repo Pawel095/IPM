@@ -42,32 +42,32 @@ function insertTestData() {
             contact_name: 'Malina',
             contact_surname: 'Torval',
             contact_email: 'mailna.t@hcfc.co',
-            clienturl: 'https://hcfc.co',
             nip: '456-456-11-12',
+            clienturl: 'https://hcfc.co',
         },
         {
             name: 'A_duval party',
             contact_name: 'Alina',
             contact_surname: 'Duval',
             contact_email: 'kappa@duval.gov.pl',
-            clienturl: 'https://duval.gov.pl',
             nip: '123-112-11-11',
+            clienturl: 'https://duval.gov.pl',
         },
         {
             name: 'sdasdasdasda',
             contact_name: 'asd1',
             contact_surname: 'asd2',
             contact_email: 'user.name@asm.hcf',
-            clienturl: 'https://sdasdasdasda.pl',
             nip: '123-321-11-12',
+            clienturl: 'https://sdasdasdasda.pl',
         },
         {
             name: '123123123123',
             contact_name: 'fgh',
             contact_surname: 'hgffgh',
             contact_email: 'user.name@asm.hcf',
-            clienturl: 'https://hgffgh.pl',
             nip: '444-555-66-77',
+            clienturl: 'https://hgffgh.pl',
         },
     ];
     for (let index = 0; index < data.length; index++) {
@@ -102,6 +102,7 @@ function refreshDataDisplay(comparison = (object) => true) {
             var c = e.target.result;
             if (c) {
                 if (comparison(c.value)) {
+                    console.log("inside")
                     var tr = document.createElement('tr');
                     for (const key in c.value) {
                         var data = document.createElement('td');
@@ -146,20 +147,18 @@ window.onload = () => {
     };
     const searchForm = document.getElementById('searchForm');
     searchForm.addEventListener('input', (e) => {
-        console.log(e.target.value);
         var keyword = e.target.value;
-        var transaction = database.transaction(OBJECTSTORE_NAME, 'readonly');
-        var store = transaction.objectStore(OBJECTSTORE_NAME);
-        store.openCursor().onsuccess = function (event) {
-            var cursor = event.target.result;
-            if (cursor) {
-                for (const key in cursor.value) {
-                    console.log(key, cursor.value[key]);
-                    
+        refreshDataDisplay((object) => {
+            const kwd = keyword;
+            let ret = false;
+            for (const key in object) {
+                if (object[key].includes(kwd)) {
+                    ret = true;
                 }
-                cursor.continue();
             }
-        };
+            console.log(ret, kwd, object);
+            return ret;
+        });
     });
 
     // DATABASE SETUP
