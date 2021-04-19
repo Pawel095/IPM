@@ -115,8 +115,9 @@ function refreshDataDisplay(comparison = (object) => true) {
                     tr.appendChild(td);
 
                     newBody.appendChild(tr);
-                    c.continue();
+                    
                 }
+                c.continue();
             } else {
                 table.replaceChild(newBody, table.getElementsByTagName('tbody')[0]);
             }
