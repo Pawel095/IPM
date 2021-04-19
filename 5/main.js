@@ -27,8 +27,20 @@ function formToDataObject(form) {
     }
     return ret;
 }
-function dataObjectToDisplay(dataObject) {
-    // TODO:IMPLEMENT
+function create_delete_button(id) {
+    let delete_button = document.createElement('button');
+    delete_button.innerHTML="Usuń"
+    delete_button.addEventListener('click', (event) => {
+        if (database) {
+            let rq = database.transaction(OBJECTSTORE_NAME, 'readwrite').objectStore(OBJECTSTORE_NAME).delete(id);
+
+            rq.onsuccess = (e) => {
+                console.log(e);
+            };
+            refreshDataDisplay();
+        }
+    });
+    return delete_button;
 }
 
 var table;
@@ -47,6 +59,11 @@ function refreshDataDisplay() {
                     data.innerHTML = c.value[key];
                     tr.appendChild(data);
                 }
+                // Button do usuwania
+                let td = document.createElement('td');
+                td.appendChild(create_delete_button(c.key));
+                tr.appendChild(td);
+
                 newBody.appendChild(tr);
                 c.continue();
             } else {
