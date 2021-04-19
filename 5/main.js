@@ -1,4 +1,4 @@
-const CURRENT_VERSION = 1;
+const CURRENT_VERSION = 2;
 const DATABASE_NAME = 'clientDatabase';
 const OBJECTSTORE_NAME = 'clients';
 
@@ -29,7 +29,7 @@ function formToDataObject(form) {
 }
 function create_delete_button(id) {
     let delete_button = document.createElement('button');
-    delete_button.innerHTML="Usuń"
+    delete_button.innerHTML = 'Usuń';
     delete_button.addEventListener('click', (event) => {
         if (database) {
             let rq = database.transaction(OBJECTSTORE_NAME, 'readwrite').objectStore(OBJECTSTORE_NAME).delete(id);
@@ -81,6 +81,8 @@ function saveObjectToDatabase(object) {
     }
 }
 
+// MAIN FUNCTIONALITY
+
 refreshDataDisplay();
 window.onload = () => {
     const form = document.getElementById('addForm');
@@ -103,14 +105,24 @@ window.onload = () => {
         };
         refreshDataDisplay();
     };
-    open_request.onupgradeneeded = () => {
+    open_request.onupgradeneeded = (e) => {
         var db = open_request.result;
-        if (CURRENT_VERSION === 1) {
+        console.log(e);
+        var old_ver = e.oldVersion;
+        if (old_ver < 1) {
             // create database from schatch
             var store = db.createObjectStore(OBJECTSTORE_NAME, { autoIncrement: true });
-            var NIPIndex = store.createIndex('by_nip', 'nip'); //{ unique: true }
-            var by_name = store.createIndex('by_name', 'name');
+            store.createIndex('by_nip', 'nip');
+            store.createIndex('by_name', 'name');
             console.log('created new database');
+        } else if (old_ver < 2) {
+            var upgradeTransaction = e.target.transaction;
+            var store = upgradeTransaction.objectStore(OBJECTSTORE_NAME);
+
+            store.createIndex('by_contact_email', 'contact_email');
+            store.createIndex('by_contact_name', 'contact_name');
+            store.createIndex('by_contact_surname', 'contact_surname');
+            console.log('updated database');
         } else {
             throw ' NOT IMPLEMENTED YET!';
         }
