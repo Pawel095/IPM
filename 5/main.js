@@ -27,6 +27,54 @@ function formToDataObject(form) {
     }
     return ret;
 }
+function insertTestData() {
+    const data = [
+        {
+            name: 'Test1',
+            contact_name: 'Jan',
+            contact_surname: 'Kowalski',
+            contact_email: 'user.name@asm.hcf',
+            nip: '123-456-78-19',
+            clienturl: 'https://google.pl',
+        },
+        {
+            name: 'HCF Shipyards Co.',
+            contact_name: 'Malina',
+            contact_surname: 'Torval',
+            contact_email: 'mailna.t@hcfc.co',
+            clienturl: 'https://hcfc.co',
+            nip: '456-456-11-12',
+        },
+        {
+            name: 'A_duval party',
+            contact_name: 'Alina',
+            contact_surname: 'Duval',
+            contact_email: 'kappa@duval.gov.pl',
+            clienturl: 'https://duval.gov.pl',
+            nip: '123-112-11-11',
+        },
+        {
+            name: 'sdasdasdasda',
+            contact_name: 'asd1',
+            contact_surname: 'asd2',
+            contact_email: 'user.name@asm.hcf',
+            clienturl: 'https://sdasdasdasda.pl',
+            nip: '123-321-11-12',
+        },
+        {
+            name: '123123123123',
+            contact_name: 'fgh',
+            contact_surname: 'hgffgh',
+            contact_email: 'user.name@asm.hcf',
+            clienturl: 'https://hgffgh.pl',
+            nip: '444-555-66-77',
+        },
+    ];
+    for (let index = 0; index < data.length; index++) {
+        const element = data[index];
+        saveObjectToDatabase(element);
+    }
+}
 function create_delete_button(id) {
     let delete_button = document.createElement('button');
     delete_button.innerHTML = 'Usuń';
@@ -45,7 +93,7 @@ function create_delete_button(id) {
 
 var table;
 var database;
-function refreshDataDisplay() {
+function refreshDataDisplay(comparison = (object) => true) {
     if (database) {
         var store = database.transaction(OBJECTSTORE_NAME, 'readonly').objectStore(OBJECTSTORE_NAME);
         var newBody = document.createElement('tbody');
@@ -53,19 +101,21 @@ function refreshDataDisplay() {
         store.openCursor().onsuccess = (e) => {
             var c = e.target.result;
             if (c) {
-                var tr = document.createElement('tr');
-                for (const key in c.value) {
-                    var data = document.createElement('td');
-                    data.innerHTML = c.value[key];
-                    tr.appendChild(data);
-                }
-                // Button do usuwania
-                let td = document.createElement('td');
-                td.appendChild(create_delete_button(c.key));
-                tr.appendChild(td);
+                if (comparison(c.value)) {
+                    var tr = document.createElement('tr');
+                    for (const key in c.value) {
+                        var data = document.createElement('td');
+                        data.innerHTML = c.value[key];
+                        tr.appendChild(data);
+                    }
+                    // Button do usuwania
+                    let td = document.createElement('td');
+                    td.appendChild(create_delete_button(c.key));
+                    tr.appendChild(td);
 
-                newBody.appendChild(tr);
-                c.continue();
+                    newBody.appendChild(tr);
+                    c.continue();
+                }
             } else {
                 table.replaceChild(newBody, table.getElementsByTagName('tbody')[0]);
             }
@@ -77,7 +127,6 @@ function saveObjectToDatabase(object) {
     if (database) {
         var tx = database.transaction(OBJECTSTORE_NAME, 'readwrite');
         var store = tx.objectStore(OBJECTSTORE_NAME).put(object);
-        // TODO: jakieś alerty o poprawności czy błędzie?
     }
 }
 
@@ -85,15 +134,33 @@ function saveObjectToDatabase(object) {
 
 refreshDataDisplay();
 window.onload = () => {
-    const form = document.getElementById('addForm');
+    const inputForm = document.getElementById('addForm');
     errors = document.getElementById('errors');
     table = document.getElementById('display');
-    form.onsubmit = (event) => {
+    // EVENT LISTENERS
+    inputForm.onsubmit = (event) => {
         saveObjectToDatabase(formToDataObject(event.target));
         refreshDataDisplay();
         event.preventDefault();
         return false;
     };
+    const searchForm = document.getElementById('searchForm');
+    searchForm.addEventListener('input', (e) => {
+        console.log(e.target.value);
+        var keyword = e.target.value;
+        var transaction = database.transaction(OBJECTSTORE_NAME, 'readonly');
+        var store = transaction.objectStore(OBJECTSTORE_NAME);
+        store.openCursor().onsuccess = function (event) {
+            var cursor = event.target.result;
+            if (cursor) {
+                for (const key in cursor.value) {
+                    console.log(key, cursor.value[key]);
+                    
+                }
+                cursor.continue();
+            }
+        };
+    });
 
     // DATABASE SETUP
     var open_request = indexedDB.open(DATABASE_NAME, CURRENT_VERSION);
@@ -115,7 +182,8 @@ window.onload = () => {
             store.createIndex('by_nip', 'nip');
             store.createIndex('by_name', 'name');
             console.log('created new database');
-        } else if (old_ver < 2) {
+        }
+        if (old_ver < 2) {
             var upgradeTransaction = e.target.transaction;
             var store = upgradeTransaction.objectStore(OBJECTSTORE_NAME);
 

@@ -14,7 +14,7 @@
                 <form id="addForm" class="vertical">
                     <div class="v-column">
                         <label for="name">Nazwa: </label>
-                        <input type="text" id="name" required data-dbname="name" value="Test1" />
+                        <input type="text" id="name" required data-dbname="name" {# value="Test1" #} />
                     </div>
                     <div class="v-column">
                         <label for="name">Imię łącznika: </label>
@@ -24,7 +24,9 @@
                             required
                             data-dbname="contact_name"
                             placeholder="Imię"
+                            {#
                             value="Jan"
+                            #}
                         />
                     </div>
                     <div class="v-column">
@@ -35,7 +37,9 @@
                             required
                             data-dbname="contact_surname"
                             placeholder="Nazwisko"
+                            {#
                             value="Kowalski"
+                            #}
                         />
                     </div>
                     <div class="v-column">
@@ -46,7 +50,9 @@
                             required
                             data-dbname="contact_email"
                             placeholder="user.name@asm.hcf"
+                            {#
                             value="user.name@asm.hcf"
+                            #}
                         />
                     </div>
                     <div class="v-column">
@@ -56,7 +62,9 @@
                             pattern="(?:\d{3}-\d{3}-\d{2}-\d{2})|(?:\d{3}-\d{2}-\d{2}-\d{3})"
                             placeholder="123-456-78-19"
                             id="nipno"
+                            {#
                             value="123-456-78-19"
+                            #}
                             data-dbname="nip"
                             required
                         />
@@ -69,29 +77,41 @@
                             pattern="(?:http[s]?:\/\/)?(?:[a-zA-Z0-9-]+\.)+(?:[a-zA-Z0-9-]+)(?:\/[a-zA-Z\d\/\._-]+)?"
                             required
                             id="clientwebsite"
+                            {#
                             value="https://google.pl"
+                            #}
                             data-dbname="clienturl"
                         />
                     </div>
                     <input type="submit" value="Dodaj" />
                 </form>
-                <p id="errors">Uwaga: możliwe że usunięcie i ponownie dodanie danych będzie wymagane aby poprawnie się wyświetlały</p>
+                <p id="errors">
+                    Uwaga: możliwe że usunięcie i ponownie dodanie danych będzie wymagane aby poprawnie się wyświetlały
+                </p>
             </div>
             <div class="h-column">
-                <table id="display">
-                    <thead>
-                        <tr>
-                            <th>Nazwa</th>
-                            <th>Imię łącznika</th>
-                            <th>Nazwisko łącznika</th>
-                            <th>Email łącznika</th>
-                            <th>NIP</th>
-                            <th>Strona domowa</th>
-                            <th>Akcja</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
+                <div class="v-column">
+                    <form class="v-column" id="searchForm">
+                        <label for="search">Wyszukiwanie</label>
+                        <input type="text" id="search" />
+                    </form>
+                </div>
+                <div class="v-column">
+                    <table id="display">
+                        <thead>
+                            <tr>
+                                <th>Nazwa</th>
+                                <th>Imię łącznika</th>
+                                <th>Nazwisko łącznika</th>
+                                <th>Email łącznika</th>
+                                <th>NIP</th>
+                                <th>Strona domowa</th>
+                                <th>Akcja</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </body>
