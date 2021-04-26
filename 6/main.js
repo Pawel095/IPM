@@ -99,15 +99,17 @@ function get_2_digits() {
 function generate_random_entry() {
     let item = window.PRERANDOMIZAED_DATA[Math.floor(Math.random() * PRERANDOMIZAED_DATA.length)];
     item.nip = get_3_digits() + '-' + get_3_digits() + '-' + get_2_digits() + '-' + get_2_digits();
-    item.clienturl = ('https::/' + item.name.replace(/\s+/g, '')+'.com').toLowerCase()
-    return item
+    item.clienturl = ('https::/' + item.name.replace(/\s+/g, '') + '.com').toLowerCase();
+    return item;
 }
 
-function create_edit_button(id) {
+function create_edit_button(id, row) {
     const EDIT_ROW_ID = id;
     let edit_button = document.createElement('button');
     edit_button.innerHTML = 'Edytuj';
-    edit_button.addEventListener('click', (event) => {});
+    edit_button.addEventListener('click', (event) => {
+        console.log(EDIT_ROW_ID, row);
+    });
     return edit_button;
 }
 
@@ -132,7 +134,7 @@ function refreshDataDisplay(comparison = (object) => true) {
                     // Button do usuwania
                     let td = document.createElement('td');
                     td.appendChild(create_delete_button(c.key));
-                    td.appendChild(create_edit_button(c.key));
+                    td.appendChild(create_edit_button(c.key, tr));
                     tr.appendChild(td);
 
                     newBody.appendChild(tr);
@@ -186,8 +188,8 @@ window.onload = () => {
     const generate_random_entry_button = document.getElementById('generate_random_entry');
     generate_random_entry_button.addEventListener('click', (e) => {
         const newrow = generate_random_entry();
-        saveObjectToDatabase(newrow)
-        refreshDataDisplay()
+        saveObjectToDatabase(newrow);
+        refreshDataDisplay();
     });
 
     // DATABASE SETUP
