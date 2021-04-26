@@ -99,7 +99,7 @@ function get_2_digits() {
 function generate_random_entry() {
     let item = window.PRERANDOMIZAED_DATA[Math.floor(Math.random() * PRERANDOMIZAED_DATA.length)];
     item.nip = get_3_digits() + '-' + get_3_digits() + '-' + get_2_digits() + '-' + get_2_digits();
-    item.clienturl = ('https::/' + item.name.replace(/\s+/g, '') + '.com').toLowerCase();
+    item.clienturl = ('https://' + item.name.replace(/\s+/g, '') + '.com').toLowerCase();
     return item;
 }
 
@@ -107,20 +107,32 @@ function create_edit_button(id, row) {
     const EDIT_ROW_ID = id;
     let edit_button = document.createElement('button');
     edit_button.innerHTML = 'Edytuj';
-    edit_button.addEventListener('click', (event) => {
+    edit_button.onclick = on_edit_handler;
+
+    function on_edit_handler(event) {
         console.log(EDIT_ROW_ID, row);
-        let form_inputtypes=document.querySelectorAll('input[data-dbname]')
-        let inputs = {}
-        for (c of form_inputtypes){
-            inputs[c.dataset.dbname]
+        let inputs = {};
+        for (c of document.querySelectorAll('input[data-dbname]')) {
+            inputs[c.dataset.dbname] = c;
         }
+
         for (const c of row.childNodes) {
             // Jeżeli jest tekst z bazy wewnątrz
             if (c.dataset.dbname) {
-                console.log(c)
+                let newTd = document.createElement('td');
+                let inputClone = inputs[c.dataset.dbname].cloneNode(true)
+                inputClone.value = c.textContent
+                newTd.appendChild(inputClone);
+                c.replaceWith(newTd);
             }
         }
-    });
+        edit_button.onclick = on_edit_done_handler
+        edit_button.innerHTML="Zapisz";
+    }
+    function on_edit_done_handler(event) {
+        throw 'on_edit_done_handler() NOT IMPLEMENTED YET!';
+    }
+
     return edit_button;
 }
 
