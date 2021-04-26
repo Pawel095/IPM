@@ -90,6 +90,26 @@ function create_delete_button(id) {
     });
     return delete_button;
 }
+function get_3_digits() {
+    return String(Math.floor(Math.random() * (999 - 100 + 1) + 100));
+}
+function get_2_digits() {
+    return String(Math.floor(Math.random() * (99 - 10 + 1) + 10));
+}
+function generate_random_entry() {
+    let item = window.PRERANDOMIZAED_DATA[Math.floor(Math.random() * PRERANDOMIZAED_DATA.length)];
+    item.nip = get_3_digits() + '-' + get_3_digits() + '-' + get_2_digits() + '-' + get_2_digits();
+    item.clienturl = ('https::/' + item.name.replace(/\s+/g, '')+'.com').toLowerCase()
+    return item
+}
+
+function create_edit_button(id) {
+    const EDIT_ROW_ID = id;
+    let edit_button = document.createElement('button');
+    edit_button.innerHTML = 'Edytuj';
+    edit_button.addEventListener('click', (event) => {});
+    return edit_button;
+}
 
 var table;
 var database;
@@ -102,7 +122,7 @@ function refreshDataDisplay(comparison = (object) => true) {
             var c = e.target.result;
             if (c) {
                 if (comparison(c.value)) {
-                    console.log("inside")
+                    console.log('inside');
                     var tr = document.createElement('tr');
                     for (const key in c.value) {
                         var data = document.createElement('td');
@@ -112,10 +132,10 @@ function refreshDataDisplay(comparison = (object) => true) {
                     // Button do usuwania
                     let td = document.createElement('td');
                     td.appendChild(create_delete_button(c.key));
+                    td.appendChild(create_edit_button(c.key));
                     tr.appendChild(td);
 
                     newBody.appendChild(tr);
-                    
                 }
                 c.continue();
             } else {
@@ -146,6 +166,7 @@ window.onload = () => {
         event.preventDefault();
         return false;
     };
+
     const searchForm = document.getElementById('searchForm');
     searchForm.addEventListener('input', (e) => {
         var keyword = e.target.value;
@@ -160,6 +181,13 @@ window.onload = () => {
             console.log(ret, kwd, object);
             return ret;
         });
+    });
+
+    const generate_random_entry_button = document.getElementById('generate_random_entry');
+    generate_random_entry_button.addEventListener('click', (e) => {
+        const newrow = generate_random_entry();
+        saveObjectToDatabase(newrow)
+        refreshDataDisplay()
     });
 
     // DATABASE SETUP
