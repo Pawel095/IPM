@@ -21,3 +21,11 @@ td {
 table {
     border-collapse: collapse;
 }
+
+input:invalid.borderable {
+    box-shadow: 0 0 4px red;
+}
+
+input:valid.borderable {
+    box-shadow: 0 0 4px green;
+}
