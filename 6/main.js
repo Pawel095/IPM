@@ -109,6 +109,17 @@ function create_edit_button(id, row) {
     edit_button.innerHTML = 'Edytuj';
     edit_button.addEventListener('click', (event) => {
         console.log(EDIT_ROW_ID, row);
+        let form_inputtypes=document.querySelectorAll('input[data-dbname]')
+        let inputs = {}
+        for (c of form_inputtypes){
+            inputs[c.dataset.dbname]
+        }
+        for (const c of row.childNodes) {
+            // Jeżeli jest tekst z bazy wewnątrz
+            if (c.dataset.dbname) {
+                console.log(c)
+            }
+        }
     });
     return edit_button;
 }
@@ -124,11 +135,11 @@ function refreshDataDisplay(comparison = (object) => true) {
             var c = e.target.result;
             if (c) {
                 if (comparison(c.value)) {
-                    console.log('inside');
                     var tr = document.createElement('tr');
                     for (const key in c.value) {
                         var data = document.createElement('td');
                         data.innerHTML = c.value[key];
+                        data.setAttribute('data-dbname', key);
                         tr.appendChild(data);
                     }
                     // Button do usuwania
@@ -190,6 +201,8 @@ window.onload = () => {
         const newrow = generate_random_entry();
         saveObjectToDatabase(newrow);
         refreshDataDisplay();
+        e.preventDefault();
+        return false;
     });
 
     // DATABASE SETUP
