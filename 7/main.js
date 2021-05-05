@@ -18,6 +18,12 @@ if (!window.indexedDB) {
 }
 // ENDSOURCE
 
+if (!window.Worker) {
+    throw 'WORKERS NOT SUPPORTED!';
+} else {
+    worker = new Worker('worker.js');
+}
+
 function formToDataObject(form) {
     var ret = {};
     for (const input of form) {
@@ -99,7 +105,7 @@ function get_2_digits() {
 function generate_random_entry() {
     let item = window.PRERANDOMIZAED_DATA[Math.floor(Math.random() * PRERANDOMIZAED_DATA.length)];
     item.nip = get_3_digits() + '-' + get_3_digits() + '-' + get_2_digits() + '-' + get_2_digits();
-    item.clienturl = ('https://' + item.name.replace(/\s+/g, '') + '.com').toLowerCase();
+    item.clienturl = ('https://' + item.name.replace(/\s+/g, '').replace(/\./g,'') + '.com').toLowerCase();
     return item;
 }
 
@@ -137,7 +143,7 @@ function create_edit_button(id, row) {
             ret[key] = inputClones[key].value;
         }
         console.log(ret);
-        updateObject(id,ret)
+        updateObject(EDIT_ROW_ID, ret);
     }
 
     return edit_button;
@@ -189,12 +195,16 @@ function updateObject(id, object) {
     let store = tx.objectStore(OBJECTSTORE_NAME);
     store.get(id).onsuccess = function (e) {
         store.put(object, id);
-        refreshDataDisplay()
+        refreshDataDisplay();
     };
 }
 
-function create_reverse_case_button(id, row) {}
-
+function insertRandomEntry() {
+    const data = generate_random_entry();
+    for (c of document.querySelectorAll('input[data-dbname]')) {
+        c.value = data[c.dataset.dbname];
+    }
+}
 
 function getDbObjects(filter = (object) => true) {
     let ret = new Promise((res, rej) => {
