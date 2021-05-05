@@ -210,6 +210,7 @@ function insertRandomEntry() {
 
 let inputForm;
 function swapCase() {
+    console.log(formToDataObject(inputForm))
     DEDICATED_WORKER.postMessage(JSON.stringify(formToDataObject(inputForm)));
 }
 
@@ -219,6 +220,7 @@ window.onload = () => {
     // Dedicated Worker message Listener
     DEDICATED_WORKER.onmessage = (e) => {
         const data = JSON.parse(e.data)
+        console.log(data)
         dataObjectToForm(e.data)
     };
 
