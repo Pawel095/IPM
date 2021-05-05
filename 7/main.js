@@ -108,6 +108,7 @@ function create_edit_button(id, row) {
     let edit_button = document.createElement('button');
     edit_button.innerHTML = 'Edytuj';
     edit_button.onclick = on_edit_handler;
+    let inputClones = [];
 
     function on_edit_handler(event) {
         console.log(EDIT_ROW_ID, row);
@@ -120,17 +121,23 @@ function create_edit_button(id, row) {
             // Jeżeli jest tekst z bazy wewnątrz
             if (c.dataset.dbname) {
                 let newTd = document.createElement('td');
-                let inputClone = inputs[c.dataset.dbname].cloneNode(true)
-                inputClone.value = c.textContent
+                let inputClone = inputs[c.dataset.dbname].cloneNode(true);
+                inputClone.value = c.textContent;
+                inputClones.push(inputClone);
                 newTd.appendChild(inputClone);
                 c.replaceWith(newTd);
             }
         }
-        edit_button.onclick = on_edit_done_handler
-        edit_button.innerHTML="Zapisz";
+        edit_button.onclick = on_edit_done_handler;
+        edit_button.innerHTML = 'Zapisz';
     }
     function on_edit_done_handler(event) {
-        throw 'on_edit_done_handler() NOT IMPLEMENTED YET!';
+        let ret = {};
+        for (const key in inputClones) {
+            ret[key] = inputClones[key].value;
+        }
+        console.log(ret);
+        updateObject(id,ret)
     }
 
     return edit_button;
@@ -177,8 +184,39 @@ function saveObjectToDatabase(object) {
     }
 }
 
-// MAIN FUNCTIONALITY
+function updateObject(id, object) {
+    let tx = database.transaction(OBJECTSTORE_NAME, 'readwrite');
+    let store = tx.objectStore(OBJECTSTORE_NAME);
+    store.get(id).onsuccess = function (e) {
+        store.put(object, id);
+        refreshDataDisplay()
+    };
+}
 
+function create_reverse_case_button(id, row) {}
+
+
+function getDbObjects(filter = (object) => true) {
+    let ret = new Promise((res, rej) => {
+        let objects = [];
+        if (database) {
+            var store = database.transaction(OBJECTSTORE_NAME, 'readonly').objectStore(OBJECTSTORE_NAME);
+            store.openCursor().onsuccess = (e) => {
+                var c = e.target.result;
+                if (c) {
+                    if (filter(c.value)) {
+                        objects.push(c.value);
+                    }
+                    c.continue();
+                } else {
+                    res(objects);
+                }
+            };
+        }
+    });
+    return ret;
+}
+// MAIN FUNCTIONALITY
 refreshDataDisplay();
 window.onload = () => {
     const inputForm = document.getElementById('addForm');
