@@ -218,6 +218,7 @@ refreshDataDisplay();
 window.onload = () => {
     // Dedicated Worker message Listener
     DEDICATED_WORKER.onmessage = (e) => {
+        const data = JSON.parse(e.data)
         dataObjectToForm(e.data)
     };
 

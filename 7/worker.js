@@ -12,8 +12,10 @@ function SwapCase(letters) {
 
 onmessage = function (e) {
     data = JSON.parse(e.data);
+    console.log(data);
     for (const key in data) {
         data[key] = SwapCase(data[key]);
     }
+    console.log(data);
     postMessage(JSON.stringify(data));
 };
