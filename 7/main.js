@@ -20,9 +20,8 @@ if (!window.indexedDB) {
 
 if (!window.Worker) {
     throw 'WORKERS NOT SUPPORTED!';
-} else {
-    worker = new Worker('worker.js');
 }
+const DEDICATED_WORKER = new Worker('worker.js');
 
 function formToDataObject(form) {
     var ret = {};
@@ -32,6 +31,11 @@ function formToDataObject(form) {
         }
     }
     return ret;
+}
+function dataObjectToForm(object) {
+    for (c of document.querySelectorAll('input[data-dbname]')) {
+        c.value = object[c.dataset.dbname];
+    }
 }
 function insertTestData() {
     const data = [
@@ -105,7 +109,7 @@ function get_2_digits() {
 function generate_random_entry() {
     let item = window.PRERANDOMIZAED_DATA[Math.floor(Math.random() * PRERANDOMIZAED_DATA.length)];
     item.nip = get_3_digits() + '-' + get_3_digits() + '-' + get_2_digits() + '-' + get_2_digits();
-    item.clienturl = ('https://' + item.name.replace(/\s+/g, '').replace(/\./g,'') + '.com').toLowerCase();
+    item.clienturl = ('https://' + item.name.replace(/\s+/g, '').replace(/\./g, '') + '.com').toLowerCase();
     return item;
 }
 
@@ -201,35 +205,23 @@ function updateObject(id, object) {
 
 function insertRandomEntry() {
     const data = generate_random_entry();
-    for (c of document.querySelectorAll('input[data-dbname]')) {
-        c.value = data[c.dataset.dbname];
-    }
+    dataObjectToForm(data);
 }
 
-function getDbObjects(filter = (object) => true) {
-    let ret = new Promise((res, rej) => {
-        let objects = [];
-        if (database) {
-            var store = database.transaction(OBJECTSTORE_NAME, 'readonly').objectStore(OBJECTSTORE_NAME);
-            store.openCursor().onsuccess = (e) => {
-                var c = e.target.result;
-                if (c) {
-                    if (filter(c.value)) {
-                        objects.push(c.value);
-                    }
-                    c.continue();
-                } else {
-                    res(objects);
-                }
-            };
-        }
-    });
-    return ret;
+let inputForm;
+function swapCase() {
+    DEDICATED_WORKER.postMessage(JSON.stringify(formToDataObject(inputForm)));
 }
+
 // MAIN FUNCTIONALITY
 refreshDataDisplay();
 window.onload = () => {
-    const inputForm = document.getElementById('addForm');
+    // Dedicated Worker message Listener
+    DEDICATED_WORKER.onmessage = (e) => {
+        dataObjectToForm(data)
+    };
+
+    inputForm = document.getElementById('addForm');
     errors = document.getElementById('errors');
     table = document.getElementById('display');
     // EVENT LISTENERS
