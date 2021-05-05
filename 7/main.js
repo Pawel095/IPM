@@ -218,7 +218,7 @@ refreshDataDisplay();
 window.onload = () => {
     // Dedicated Worker message Listener
     DEDICATED_WORKER.onmessage = (e) => {
-        dataObjectToForm(data)
+        dataObjectToForm(e.data)
     };
 
     inputForm = document.getElementById('addForm');
