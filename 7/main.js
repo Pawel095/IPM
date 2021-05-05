@@ -221,7 +221,7 @@ window.onload = () => {
     DEDICATED_WORKER.onmessage = (e) => {
         const data = JSON.parse(e.data)
         console.log(data)
-        dataObjectToForm(e.data)
+        dataObjectToForm(data)
     };
 
     inputForm = document.getElementById('addForm');
