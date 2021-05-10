@@ -219,7 +219,6 @@ function calculate_image_overlay() {
     IMAGE_OVERLAY_WORKER.postMessage(JSON.stringify({ form: formToDataObject(inputForm), imageLink: linkInput.value }));
 }
 
-// MAIN FUNCTIONALITY
 refreshDataDisplay();
 window.onload = () => {
     linkInput = document.getElementById('image_link');
@@ -233,7 +232,10 @@ window.onload = () => {
         console.log(data);
         dataObjectToForm(data);
     };
-
+    IMAGE_OVERLAY_WORKER.onmessage = (e) => {
+        const data = JSON.parse(e.data);
+        console.log(data);
+    };
     // EVENT LISTENERS
     inputForm.onsubmit = (event) => {
         saveObjectToDatabase(formToDataObject(event.target));
