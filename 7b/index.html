@@ -15,11 +15,11 @@
             <div class="h-column">
                 <form id="addForm" class="vertical">
                     <div class="v-column">
-                        <label for="name">Nazwa: </label>
+                        <label for="company_name">Nazwa: </label>
                         <input
                             class="borderable"
                             type="text"
-                            id="name"
+                            id="company_name"
                             required
                             data-dbname="name"
                             placeholder="Nazwa"
@@ -96,6 +96,24 @@
                     </div>
                 </div>
                 <p id="errors"></p>
+            </div>
+            <div class="h-column">
+                <div class="h-column">
+                    <label for="image_link">Link do JPG</label>
+                    <input
+                        id="image_link"
+                        class="borderable"
+                        type="text"
+                        placeholder="https://google.pl"
+                        value="https://cdn2.bulbagarden.net/upload/e/e2/133Eevee.png"
+                        pattern="(?:http[s]?:\/\/)?(?:[a-zA-Z0-9-]+\.)+(?:[a-zA-Z0-9-]+)(?:\/[a-zA-Z\d\/\._-]+)?"
+                        required
+                    />
+                </div>
+                <div id="h-column">
+                    <button id="image_overlay" onclick="calculate_image_overlay()">Wyświetl obraz</button>
+                </div>
+                <img class="img_filter" id="img_display" />
             </div>
             <div class="h-column">
                 <div class="v-column">

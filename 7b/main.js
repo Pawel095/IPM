@@ -22,6 +22,7 @@ if (!window.Worker) {
     throw 'WORKERS NOT SUPPORTED!';
 }
 const SWAP_LETTERS_WORKER = new Worker('SwapLettersWorker.js');
+const IMAGE_OVERLAY_WORKER = new Worker('imageOverlay.js');
 
 function formToDataObject(form) {
     var ret = {};
@@ -213,10 +214,19 @@ function swapCase() {
     console.log(formToDataObject(inputForm));
     SWAP_LETTERS_WORKER.postMessage(JSON.stringify(formToDataObject(inputForm)));
 }
+let linkInput;
+function calculate_image_overlay() {
+    IMAGE_OVERLAY_WORKER.postMessage(JSON.stringify({ form: formToDataObject(inputForm), imageLink: linkInput.value }));
+}
 
 // MAIN FUNCTIONALITY
 refreshDataDisplay();
 window.onload = () => {
+    linkInput = document.getElementById('image_link');
+    inputForm = document.getElementById('addForm');
+    errors = document.getElementById('errors');
+    table = document.getElementById('display');
+
     // SWAP_LETTERS_WORKER message Listener
     SWAP_LETTERS_WORKER.onmessage = (e) => {
         const data = JSON.parse(e.data);
@@ -224,9 +234,6 @@ window.onload = () => {
         dataObjectToForm(data);
     };
 
-    inputForm = document.getElementById('addForm');
-    errors = document.getElementById('errors');
-    table = document.getElementById('display');
     // EVENT LISTENERS
     inputForm.onsubmit = (event) => {
         saveObjectToDatabase(formToDataObject(event.target));
