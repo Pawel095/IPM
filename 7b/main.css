@@ -1,6 +1,7 @@
 .horizontal {
     display: flex;
     flex-direction: row;
+    align-items: stretch;
 }
 .h-column {
 }
@@ -10,6 +11,11 @@
     flex-direction: column;
 }
 .v-column {
+}
+#img_display {
+    flex-grow: 1;
+    width: 200px;
+    height: 200px;
 }
 
 table,

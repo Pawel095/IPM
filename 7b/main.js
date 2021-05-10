@@ -233,8 +233,13 @@ window.onload = () => {
         dataObjectToForm(data);
     };
     IMAGE_OVERLAY_WORKER.onmessage = (e) => {
+        const imgd = document.getElementById('img_display');
         const data = JSON.parse(e.data);
         console.log(data);
+        let style = `linear-gradient(0deg,rgba(${data.r},${data.g},${data.b},0.50),rgba(${data.r},${data.g},${data.b},0.50)), url('${data.imageLink}')`;
+        console.log(style);
+        imgd.style['background'] = style;
+        imgd.style['backgroundSize'] = 'cover';
     };
     // EVENT LISTENERS
     inputForm.onsubmit = (event) => {

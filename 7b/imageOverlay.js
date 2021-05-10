@@ -52,5 +52,5 @@ onmessage = function (e) {
     data = JSON.parse(e.data);
     console.log(data);
     result = CalculateOverlay({ url: data['imageLink'], ...data['form'] });
-    postMessage(JSON.stringify(result));
+    postMessage(JSON.stringify({...result,imageLink:data.imageLink}));
 };
