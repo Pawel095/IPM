@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title>Zadanie 7</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+        <script src="prerandomizedData.js" async="false" defer="false"></script>
+        <script src="main.js"></script>
+    </head>
+    <body>
+        <div class="horizontal">
+            <div class="h-column">
+                <form id="addForm" class="vertical">
+                    <div class="v-column">
+                        <label for="name">Nazwa: </label>
+                        <input
+                            class="borderable"
+                            type="text"
+                            id="name"
+                            required
+                            data-dbname="name"
+                            placeholder="Nazwa"
+                        />
+                    </div>
+                    <div class="v-column">
+                        <label for="name">Imię łącznika: </label>
+                        <input
+                            class="borderable"
+                            type="text"
+                            id="name"
+                            required
+                            data-dbname="contact_name"
+                            placeholder="Imię"
+                        />
+                    </div>
+                    <div class="v-column">
+                        <label for="surname">Nazwisko łącznika: </label>
+                        <input
+                            class="borderable"
+                            type="text"
+                            id="surname"
+                            required
+                            data-dbname="contact_surname"
+                            placeholder="Nazwisko"
+                        />
+                    </div>
+                    <div class="v-column">
+                        <label for="email">Email łącznika: </label>
+                        <input
+                            class="borderable"
+                            type="email"
+                            id="email"
+                            required
+                            data-dbname="contact_email"
+                            placeholder="user.name@asm.hcf"
+                        />
+                    </div>
+                    <div class="v-column">
+                        <label for="numer NIP">NIP: </label>
+                        <input
+                            class="borderable"
+                            type="text"
+                            pattern="(?:\d{3}-\d{3}-\d{2}-\d{2})|(?:\d{3}-\d{2}-\d{2}-\d{3})"
+                            placeholder="123-456-78-19"
+                            id="nipno"
+                            data-dbname="nip"
+                            required
+                        />
+                    </div>
+                    <div class="v-column">
+                        <label for="clientwebsite">Strona domowa: </label>
+                        <input
+                            class="borderable"
+                            type="url"
+                            placeholder="https://google.pl"
+                            pattern="(?:http[s]?:\/\/)?(?:[a-zA-Z0-9-]+\.)+(?:[a-zA-Z0-9-]+)(?:\/[a-zA-Z\d\/\._-]+)?"
+                            required
+                            id="clientwebsite"
+                            data-dbname="clienturl"
+                        />
+                    </div>
+                    <input type="submit" value="Dodaj" />
+                    <button id="generate_random_entry">Generuj Losowy rekord</button>
+                </form>
+                <div class="horizontal">
+                    <div id="h-column">
+                        <button id="insert_random_entry" onclick="insertRandomEntry()">Wstaw losowy rekord do formulaża</button>
+                    </div>
+                    <div id="h-column">
+                        <button id="flip_case" onclick="swapCase()">Zamień wielkość znaków</button>
+                    </div>
+                </div>
+                <p id="errors"></p>
+            </div>
+            <div class="h-column">
+                <div class="v-column">
+                    <form class="v-column" id="searchForm">
+                        <label for="search">Wyszukiwanie</label>
+                        <input type="text" id="search" />
+                    </form>
+                </div>
+                <div class="v-column">
+                    <table id="display">
+                        <thead>
+                            <tr>
+                                <th>Nazwa</th>
+                                <th>Imię łącznika</th>
+                                <th>Nazwisko łącznika</th>
+                                <th>Email łącznika</th>
+                                <th>NIP</th>
+                                <th>Strona domowa</th>
+                                <th>Akcja</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
