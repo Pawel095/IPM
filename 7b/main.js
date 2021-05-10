@@ -21,7 +21,7 @@ if (!window.indexedDB) {
 if (!window.Worker) {
     throw 'WORKERS NOT SUPPORTED!';
 }
-const DEDICATED_WORKER = new Worker('worker.js');
+const SWAP_LETTERS_WORKER = new Worker('SwapLettersWorker.js');
 
 function formToDataObject(form) {
     var ret = {};
@@ -210,18 +210,18 @@ function insertRandomEntry() {
 
 let inputForm;
 function swapCase() {
-    console.log(formToDataObject(inputForm))
-    DEDICATED_WORKER.postMessage(JSON.stringify(formToDataObject(inputForm)));
+    console.log(formToDataObject(inputForm));
+    SWAP_LETTERS_WORKER.postMessage(JSON.stringify(formToDataObject(inputForm)));
 }
 
 // MAIN FUNCTIONALITY
 refreshDataDisplay();
 window.onload = () => {
-    // Dedicated Worker message Listener
-    DEDICATED_WORKER.onmessage = (e) => {
-        const data = JSON.parse(e.data)
-        console.log(data)
-        dataObjectToForm(data)
+    // SWAP_LETTERS_WORKER message Listener
+    SWAP_LETTERS_WORKER.onmessage = (e) => {
+        const data = JSON.parse(e.data);
+        console.log(data);
+        dataObjectToForm(data);
     };
 
     inputForm = document.getElementById('addForm');
