@@ -81,6 +81,20 @@
                             data-dbname="clienturl"
                         />
                     </div>
+                    <div class="v-column">
+                        <label for="image_link">Link do obrazu</label>
+                        <input
+                            id="image_link"
+                            class="borderable"
+                            type="text"
+                            placeholder="https://google.pl"
+                            value="https://upload.wikimedia.org/wikipedia/en/a/a9/Pok%C3%A9mon_Eevee_art.png"
+                            pattern="(?:http[s]?:\/\/)?(?:[a-zA-Z0-9-]+\.)+(?:[a-zA-Z0-9-%]+)(?:\/[%a-zA-Z\d\/\._-]+)?"
+                            required
+                            oninput="updateHiddenInput()"
+                        />
+                    </div>
+                    <input type="hidden" id="image_data" data-dbname="image_data">
                     <input type="submit" value="Dodaj" />
                     <button id="generate_random_entry">Generuj Losowy rekord</button>
                 </form>
@@ -94,28 +108,20 @@
                         <button id="flip_case" onclick="swapCase()">Zamień wielkość znaków</button>
                     </div>
                 </div>
-                <p id="errors"></p>
-            </div>
-            <div class="h-column">
-                <div class="h-column">
-                    <label for="image_link">Link do JPG</label>
-                    <input
-                        id="image_link"
-                        class="borderable"
-                        type="text"
-                        placeholder="https://google.pl"
-                        value="https://cdn2.bulbagarden.net/upload/e/e2/133Eevee.png"
-                        pattern="(?:http[s]?:\/\/)?(?:[a-zA-Z0-9-]+\.)+(?:[a-zA-Z0-9-]+)(?:\/[a-zA-Z\d\/\._-]+)?"
-                        required
-                    />
+                <div id="horizontal">
+                    <div id="h-column">
+                        <button id="image_overlay" onclick="calculate_image_overlay()">Generuj podgląd</button>
+                    </div>
+                    <div>Podgląd:</div>
+                    <div id="img_display"></div>
+                    <canvas id="img_canvas" width="100" height="100"></canvas>
                 </div>
-                <div id="h-column">
-                    <button id="image_overlay" onclick="calculate_image_overlay()">Wyświetl obraz</button>
-                </div>
-                <div>Podgląd:</div>
-                <div id="img_display"></div>
-                <canvas id="img_canvas" width="100" height="100"></canvas>
+                <p id="errors">
+                    UWAGA! Aby aplikacja wyświetlała dane poprawnie może być wymagane usunięcie i ponowne dodanie danych
+                    do bazy
+                </p>
             </div>
+            <div class="h-column"></div>
             <div class="h-column">
                 <div class="v-column">
                     <form class="v-column" id="searchForm">
@@ -133,6 +139,7 @@
                                 <th>Email łącznika</th>
                                 <th>NIP</th>
                                 <th>Strona domowa</th>
+                                <th>Obraz</th>
                                 <th>Akcja</th>
                             </tr>
                         </thead>

@@ -23,6 +23,7 @@ if (!window.Worker) {
 }
 const SWAP_LETTERS_WORKER = new Worker('SwapLettersWorker.js');
 const IMAGE_OVERLAY_WORKER = new Worker('imageOverlay.js');
+const IMAGE_DATA_WORKER = new Worker('imageOverlay.js');
 
 function formToDataObject(form) {
     var ret = {};
@@ -207,6 +208,7 @@ function updateObject(id, object) {
 function insertRandomEntry() {
     const data = generate_random_entry();
     dataObjectToForm(data);
+    updateHiddenInput();
 }
 
 let inputForm;
@@ -216,7 +218,32 @@ function swapCase() {
 }
 let linkInput;
 function calculate_image_overlay() {
+    updateHiddenInput();
     IMAGE_OVERLAY_WORKER.postMessage(JSON.stringify({ form: formToDataObject(inputForm), imageLink: linkInput.value }));
+}
+
+let imageDataInput;
+let canvas;
+function updateHiddenInput() {
+    IMAGE_DATA_WORKER.postMessage(JSON.stringify({ form: formToDataObject(inputForm), imageLink: linkInput.value }));
+    IMAGE_DATA_WORKER.onmessage = (e) => {
+        const data = JSON.parse(e.data);
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, 100, 100);
+
+        let img = new window.Image();
+        img.width = 100;
+        img.height = 100;
+        img.src = linkInput.value;
+        img.crossOrigin = 'anonymous';
+        img.onload = (e) => {
+            ctx.drawImage(img, 0, 0, 100, 100);
+            console.log(`rgba(${data.r},${data.g},${data.b},0.5)`);
+            ctx.fillStyle = `rgba(${data.r},${data.g},${data.b},0.5)`;
+            ctx.fillRect(0, 0, 100, 100);
+            imageDataInput.value = canvas.toDataURL('image/jpeg');
+        };
+    };
 }
 
 refreshDataDisplay();
@@ -225,6 +252,9 @@ window.onload = () => {
     inputForm = document.getElementById('addForm');
     errors = document.getElementById('errors');
     table = document.getElementById('display');
+    imageDataInput = document.getElementById('image_data');
+    canvas = document.getElementById('img_canvas');
+    updateHiddenInput();
 
     // SWAP_LETTERS_WORKER message Listener
     SWAP_LETTERS_WORKER.onmessage = (e) => {
@@ -232,9 +262,12 @@ window.onload = () => {
         console.log(data);
         dataObjectToForm(data);
     };
+
     IMAGE_OVERLAY_WORKER.onmessage = (e) => {
         const imgd = document.getElementById('img_display');
+        const canvas = document.getElementById('img_canvas');
         const data = JSON.parse(e.data);
+
         console.log(data);
         let style = `linear-gradient(0deg,rgba(${data.r},${data.g},${data.b},0.50),rgba(${data.r},${data.g},${data.b},0.50)), url('${data.imageLink}')`;
         console.log(style);
