@@ -134,9 +134,12 @@ function create_edit_button(id, row) {
             if (c.dataset.dbname) {
                 let newTd = document.createElement('td');
                 let inputClone = inputs[c.dataset.dbname].cloneNode(true);
-                inputClone.value = c.textContent;
-                inputClones.push(inputClone);
-                newTd.appendChild(inputClone);
+                if (c.dataset.dbname !== '') {
+                    inputClone.value = c.textContent;
+                    inputClones.push(inputClone);
+                    newTd.appendChild(inputClone);
+                }
+
                 c.replaceWith(newTd);
             }
         }
@@ -168,10 +171,19 @@ function refreshDataDisplay(comparison = (object) => true) {
                 if (comparison(c.value)) {
                     var tr = document.createElement('tr');
                     for (const key in c.value) {
-                        var data = document.createElement('td');
-                        data.innerHTML = c.value[key];
-                        data.setAttribute('data-dbname', key);
-                        tr.appendChild(data);
+                        if (key !== 'image_data') {
+                            var data = document.createElement('td');
+                            data.innerHTML = c.value[key];
+                            data.setAttribute('data-dbname', key);
+                            tr.appendChild(data);
+                        } else {
+                            let data = document.createElement('td');
+                            let img = document.createElement('img');
+                            img.src = c.value[key];
+                            data.setAttribute('data-dbname', key);
+                            data.appendChild(img);
+                            tr.appendChild(data);
+                        }
                     }
                     // Button do usuwania
                     let td = document.createElement('td');
