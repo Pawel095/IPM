@@ -1,0 +1,36 @@
+.horizontal {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+}
+.h-column {
+}
+
+.vertical {
+    display: flex;
+    flex-direction: column;
+}
+.v-column {
+}
+#img_display {
+    flex-grow: 1;
+    width: 200px;
+    height: 200px;
+}
+
+table,
+th,
+td {
+    border: 1px solid black;
+}
+table {
+    border-collapse: collapse;
+}
+
+input:invalid.borderable {
+    box-shadow: 0 0 4px red;
+}
+
+input:valid.borderable {
+    box-shadow: 0 0 4px green;
+}
