@@ -134,8 +134,12 @@ function create_edit_button(id, row) {
             if (c.dataset.dbname) {
                 let newTd = document.createElement('td');
                 let inputClone = inputs[c.dataset.dbname].cloneNode(true);
-                if (c.dataset.dbname !== '') {
+                if (c.dataset.dbname !== 'image_data') {
                     inputClone.value = c.textContent;
+                    inputClones.push(inputClone);
+                    newTd.appendChild(inputClone);
+                } else {
+                    inputClone.value = c.childNodes[0].src;
                     inputClones.push(inputClone);
                     newTd.appendChild(inputClone);
                 }
@@ -148,8 +152,9 @@ function create_edit_button(id, row) {
     }
     function on_edit_done_handler(event) {
         let ret = {};
+        console.log(inputClones)
         for (const key in inputClones) {
-            ret[key] = inputClones[key].value;
+            ret[inputClones[key].dataset.dbname] = inputClones[key].value;
         }
         console.log(ret);
         updateObject(EDIT_ROW_ID, ret);
