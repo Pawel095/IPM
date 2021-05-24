@@ -130,6 +130,7 @@ function create_edit_button(id, row) {
                 inputClone.value = c.textContent;
                 inputClones.push(inputClone);
                 newTd.appendChild(inputClone);
+
                 c.replaceWith(newTd);
             }
         }
@@ -138,8 +139,9 @@ function create_edit_button(id, row) {
     }
     function on_edit_done_handler(event) {
         let ret = {};
+        console.log(inputClones);
         for (const key in inputClones) {
-            ret[key] = inputClones[key].value;
+            ret[inputClones[key].dataset.dbname] = inputClones[key].value;
         }
         console.log(ret);
         updateObject(EDIT_ROW_ID, ret);
