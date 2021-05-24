@@ -23,9 +23,9 @@ table {
 }
 
 input:invalid.borderable {
-    box-shadow: 0 0 4px red;
+    box-shadow: 0 0 6px red;
 }
 
 input:valid.borderable {
-    box-shadow: 0 0 4px green;
+    box-shadow: 0 0 6px green;
 }
