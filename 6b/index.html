@@ -73,9 +73,9 @@
                         <label for="clientwebsite">Strona domowa: </label>
                         <input
                             class="borderable"
-                            type="url"
+                            type="text"
                             placeholder="https://google.pl"
-                            pattern="(?:http[s]?:\/\/)?(?:[a-zA-Z0-9-]+\.)+(?:[a-zA-Z0-9-]+)(?:\/[a-zA-Z\d\/\._-]+)?"
+                            pattern="(http[s]?:\/\/)?([a-zA-Z0-9-]+\.[a-zA-Z0-9-]+)(\/[a-zA-Z\d\/\._-]+)?"
                             required
                             id="clientwebsite"
                             data-dbname="clienturl"
@@ -86,7 +86,9 @@
                 </form>
                 <div class="horizontal">
                     <div id="h-column">
-                        <button id="insert_random_entry" onclick="insertRandomEntry()">Wstaw losowy rekord do formulaża</button>
+                        <button id="insert_random_entry" onclick="insertRandomEntry()">
+                            Wstaw losowy rekord do formulaża
+                        </button>
                     </div>
                 </div>
                 <p id="errors"></p>
