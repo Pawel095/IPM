@@ -27,6 +27,11 @@ function formToDataObject(form) {
     }
     return ret;
 }
+function dataObjectToForm(object) {
+    for (c of document.querySelectorAll('input[data-dbname]')) {
+        c.value = object[c.dataset.dbname];
+    }
+}
 function insertTestData() {
     const data = [
         {
@@ -99,7 +104,7 @@ function get_2_digits() {
 function generate_random_entry() {
     let item = window.PRERANDOMIZAED_DATA[Math.floor(Math.random() * PRERANDOMIZAED_DATA.length)];
     item.nip = get_3_digits() + '-' + get_3_digits() + '-' + get_2_digits() + '-' + get_2_digits();
-    item.clienturl = ('https://' + item.name.replace(/\s+/g, '') + '.com').toLowerCase();
+    item.clienturl = ('https://' + item.name.replace(/\s+/g, '').replace(/\./g, '') + '.com').toLowerCase();
     return item;
 }
 
@@ -108,6 +113,7 @@ function create_edit_button(id, row) {
     let edit_button = document.createElement('button');
     edit_button.innerHTML = 'Edytuj';
     edit_button.onclick = on_edit_handler;
+    let inputClones = [];
 
     function on_edit_handler(event) {
         console.log(EDIT_ROW_ID, row);
@@ -120,17 +126,23 @@ function create_edit_button(id, row) {
             // Jeżeli jest tekst z bazy wewnątrz
             if (c.dataset.dbname) {
                 let newTd = document.createElement('td');
-                let inputClone = inputs[c.dataset.dbname].cloneNode(true)
-                inputClone.value = c.textContent
+                let inputClone = inputs[c.dataset.dbname].cloneNode(true);
+                inputClone.value = c.textContent;
+                inputClones.push(inputClone);
                 newTd.appendChild(inputClone);
                 c.replaceWith(newTd);
             }
         }
-        edit_button.onclick = on_edit_done_handler
-        edit_button.innerHTML="Zapisz";
+        edit_button.onclick = on_edit_done_handler;
+        edit_button.innerHTML = 'Zapisz';
     }
     function on_edit_done_handler(event) {
-        throw 'on_edit_done_handler() NOT IMPLEMENTED YET!';
+        let ret = {};
+        for (const key in inputClones) {
+            ret[key] = inputClones[key].value;
+        }
+        console.log(ret);
+        updateObject(EDIT_ROW_ID, ret);
     }
 
     return edit_button;
@@ -177,8 +189,21 @@ function saveObjectToDatabase(object) {
     }
 }
 
-// MAIN FUNCTIONALITY
+function updateObject(id, object) {
+    let tx = database.transaction(OBJECTSTORE_NAME, 'readwrite');
+    let store = tx.objectStore(OBJECTSTORE_NAME);
+    store.get(id).onsuccess = function (e) {
+        store.put(object, id);
+        refreshDataDisplay();
+    };
+}
 
+function insertRandomEntry() {
+    const data = generate_random_entry();
+    dataObjectToForm(data);
+}
+
+// MAIN FUNCTIONALITY
 refreshDataDisplay();
 window.onload = () => {
     const inputForm = document.getElementById('addForm');
