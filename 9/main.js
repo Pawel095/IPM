@@ -172,9 +172,12 @@ function create_invoice_button(id) {
         data = e.target.result;
     };
 
+    let select = document.getElementById('products');
     let but = document.createElement('button');
     but.onclick = (event) => {
-        window.popupData = {client:data,product:{}};
+        let dataset = select.options[select.selectedIndex].dataset;
+        let nazwa = select.options[select.selectedIndex].text;
+        window.popupData = { client: data, product: { koszt: dataset.koszt, nazwa, kod: select.value } };
         open('template/faktura.html', 'Faktura', 'width=700, height=500');
     };
     but.innerHTML = 'Generuj fakturę';
