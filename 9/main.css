@@ -4,6 +4,8 @@
     align-items: stretch;
 }
 .h-column {
+    width: 100%;
+    justify-content: center;
 }
 
 .vertical {
@@ -11,6 +13,10 @@
     flex-direction: column;
 }
 .v-column {
+}
+.margin-vertical {
+    margin-top: 1em;
+    margin-bottom: 1em;
 }
 #img_display {
     flex-grow: 1;
