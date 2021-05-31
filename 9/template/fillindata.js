@@ -1,4 +1,9 @@
+function round(num) {
+    return Math.round((num + Number.EPSILON) * 100) / 100;
+}
+
 window.onload = () => {
+    // LOAD DATA
     let TABLE_DATA;
     if (!window.opener) {
         TABLE_DATA = {
@@ -23,7 +28,8 @@ window.onload = () => {
     }
     console.log(TABLE_DATA);
 
-    let clienttbody = document.getElementById('clientDisplay');
+    // CLIENT DATA
+    let clientTbody = document.getElementById('clientDisplay');
     let tr = document.createElement('tr');
 
     let td = document.createElement('td');
@@ -46,7 +52,31 @@ window.onload = () => {
     td.innerHTML = TABLE_DATA.client.contact_surname;
     tr.appendChild(td);
 
-    clienttbody.appendChild(tr);
+    clientTbody.appendChild(tr);
 
-    
+    // PRODUCT DATA
+    let productTbody = document.getElementById('productDisplay');
+    tr = document.createElement('tr');
+
+    td = document.createElement('td');
+    td.innerHTML = TABLE_DATA.product.nazwa;
+    tr.appendChild(td);
+
+    td = document.createElement('td');
+    td.innerHTML = TABLE_DATA.product.kod;
+    tr.appendChild(td);
+
+    td = document.createElement('td');
+    td.innerHTML = `${TABLE_DATA.product.koszt} PLN`;
+    tr.appendChild(td);
+
+    td = document.createElement('td');
+    td.innerHTML = `${round(TABLE_DATA.product.koszt * 0.22)} PLN`;
+    tr.appendChild(td);
+
+    td = document.createElement('td');
+    td.innerHTML = `${round(TABLE_DATA.product.koszt * 1.22)} PLN`;
+    tr.appendChild(td);
+
+    productTbody.appendChild(tr);
 };
